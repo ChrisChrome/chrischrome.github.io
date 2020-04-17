@@ -3,11 +3,17 @@
 
 <head>
     <style>
+        p,
+        marquee {
+            margin: 0;
+            padding: 0;
+        }
+
         body {
             background-color: black;
             color: white;
             font-family: Arial, Helvetica, sans-serif;
-            font-size:90px;
+            font-size: 85px;
             overflow: hidden;
         }
 
@@ -22,11 +28,30 @@
             margin: auto;
         }
     </style>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <!--Require JQuery-->
+    <script>
+        function announce(header, text, delay, color) {
+            oldText = $("#announcementText").html();
+            $("#headerText").html(header)
+            $("#announcementText").html(text)
+            $("#body").css("background-color", color)
+            setTimeout(() => {
+                $("#headerText").html("Welcome to The Medium")
+                $("#body").css("background-color", "black")
+                $("#announcementText").html(oldText)
+            }, delay);
+            return true
+        }
+    </script>
 </head>
 
-<body>
-    <marquee id="" direction="left" scrollamount="30" behavior="scroll">
-        <p>This is a test</p>
+<body id="body">
+    <center>
+        <p id="headerText">Welcome to The Medium [TEST]</p>
+    </center>
+    <marquee direction="left" scrollamount="30" behavior="scroll">
+        <p id="announcementText"></p>
     </marquee>
 </body>
 
