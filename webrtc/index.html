@@ -35,10 +35,12 @@
             position: fixed;
             object-fit: cover;
         }
+
         * {
             margin: 0;
             padding: 0;
         }
+
         div {
             padding: 0;
             margin: 0;
@@ -64,7 +66,7 @@
 <div id="videos-container"></div>
 
 <body id="body">
-    <iframe src="silence.mp3" type="audio/mp3" allow="autoplay" id="audio" style="display:none"></iframe>
+    <iframe src="silence.mp3" type="audio/mp3" allow="autoplay" id="audio" style="display:block"></iframe>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
     <article>
 
@@ -72,9 +74,8 @@
         <section class="experiment">
             <section>
                 <select id="broadcasting-option">
-                    <option>Audio + Video</option>
+                    <option>Audio + Video [RECOMMENDED]</option>
                     <option>Only Audio</option>
-                    <option>Screen</option>
                 </select>
                 <input type="text" id="broadcast-name">
                 <button id="setup-new-broadcast">Setup New Broadcast</button>
@@ -121,7 +122,7 @@
                 onRemoteStream: function (htmlElement) {
                     videosContainer.appendChild(htmlElement);
                 },
-                onRoomFound: function (room) {
+                /*onRoomFound: function (room) {
                     var alreadyExist = document.querySelector('button[data-broadcaster="' + room.broadcaster +
                         '"]');
                     if (alreadyExist) return;
@@ -146,7 +147,25 @@
                 },
                 onReady: function () {
                     console.log('now you can open or join rooms');
-                }
+                }*/
+                onRoomFound: function (room) {
+                    var alreadyExist = document.querySelector('button[data-broadcaster="' + room.broadcaster +
+                        '"]');
+                    if (alreadyExist) return;
+
+                    if (typeof roomsList === 'undefined') roomsList = document.body;
+
+                    var tr = document.createElement('tr');
+                    tr.innerHTML = '<td><strong>' + room.roomName +
+                        '</strong> is broadcasting his media!</td>' +
+                        '<td>Gonna just try and join now!</td>';
+                    roomsList.appendChild(tr);
+                    broadcastUI.joinRoom({
+                        roomToken: room.broadcaster,
+                        joinUser: room.broadcaster
+                    });
+                    hideUnnecessaryStuff();
+                },
             };
 
             function setupNewBroadcastButtonClickHandler() {
@@ -188,25 +207,6 @@
                         );
                     }
                 }
-                if (option === 'Screen') {
-                    var video_constraints = {
-                        mandatory: {
-                            chromeMediaSource: 'screen'
-                        },
-                        optional: []
-                    };
-                    constraints = {
-                        audio: false,
-                        video: video_constraints
-                    };
-
-                    if (DetectRTC.isScreenCapturingSupported !== true) {
-                        alert(
-                            'DetectRTC library is unable to find screen capturing support. You MUST run chrome with command line flag "chrome --enable-usermedia-screen-capturing"'
-                        );
-                    }
-                }
-
                 if (option != 'Only Audio' && option != 'Screen' && DetectRTC.hasWebcam !== true) {
                     alert(
                         'DetectRTC library is unable to find webcam; maybe you denied webcam access once and it is still denied or maybe webcam device is not attached to your system or another app is using same webcam.'
@@ -235,9 +235,7 @@
                         config.attachStream = stream;
 
                         videosContainer.appendChild(htmlElement);
-                        var videoTest = document.getElementById("video1234");
-                        videoTest.requestFullscreen()
-                        videoTest.removeAttribute("controls")
+
                         callback && callback();
                     },
                     onerror: function () {
@@ -275,7 +273,7 @@
             }
         </script>
 
-        <section class="experiment">
+        <!--<section class="experiment">
             <h2 class="header">How it works?</h2>
             <ol>
                 <li>It broadcasts media in one-way direction over number of peers.</li>
@@ -283,7 +281,7 @@
                 <li>"Anonymously" means viewers will NEVER be prompted to allow webcam or mic or screen.</li>
                 <li>Assume like a radio station inside the browser. Remember, it works only browser-to-browser.</li>
             </ol>
-        </section>
+        </section>-->
 
         <section class="experiment"><small id="send-message"></small></section>
     </article>
