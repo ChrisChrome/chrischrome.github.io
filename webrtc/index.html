@@ -189,7 +189,7 @@
                     var tr = document.createElement('tr');
                     tr.innerHTML = '<td><strong>' + room.roomName +
                         '</strong> is broadcasting his media!</td>' +
-                        '<td><button class="join">Join</button></td>';
+                        'Gonna try and autojoin? Maybe!?</td>';
                     roomsList.appendChild(tr);
 
                     var joinRoomButton = tr.querySelector('.join');
@@ -198,7 +198,7 @@
                     //Lets try this
                         broadcastUI.joinRoom({
                             roomToken: room.broadcaster,
-                            joinUser: room/broadcaster
+                            joinUser: room.broadcaster
                         });
                         hideUnnecessaryStuff();
                     
