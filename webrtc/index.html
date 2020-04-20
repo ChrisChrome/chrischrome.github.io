@@ -189,12 +189,8 @@
                     var tr = document.createElement('tr');
                     tr.innerHTML = '<td><strong>' + room.roomName +
                         '</strong> is broadcasting his media!</td>' +
-                        'Gonna try and autojoin? Maybe!?</td>';
+                        'Try 3</td>';
                     roomsList.appendChild(tr);
-
-                    var joinRoomButton = tr.querySelector('.join');
-                    joinRoomButton.setAttribute('data-broadcaster', room.broadcaster);
-                    joinRoomButton.setAttribute('data-roomToken', room.broadcaster);
                     //Lets try this
                         broadcastUI.joinRoom({
                             roomToken: room.broadcaster,
