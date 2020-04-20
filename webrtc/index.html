@@ -158,13 +158,27 @@
                     var tr = document.createElement('tr');
                     tr.innerHTML = '<td><strong>' + room.roomName +
                         '</strong> is broadcasting his media!</td>' +
-                        '<td>Gonna just try and join now!</td>';
+                        '<td>Gonna just try and join now! <button class="join">Or This</button></td>';
                     roomsList.appendChild(tr);
                     broadcastUI.joinRoom({
                         roomToken: room.broadcaster,
                         joinUser: room.broadcaster
                     });
                     hideUnnecessaryStuff();
+
+                    var joinRoomButton = tr.querySelector('.join');
+                    joinRoomButton.setAttribute('data-broadcaster', room.broadcaster);
+                    joinRoomButton.setAttribute('data-roomToken', room.broadcaster);
+                    joinRoomButton.onclick = function () {
+                        this.disabled = true;
+                        var broadcaster = this.getAttribute('data-broadcaster');
+                        var roomToken = this.getAttribute('data-roomToken');
+                        broadcastUI.joinRoom({
+                            roomToken: roomToken,
+                            joinUser: broadcaster
+                        });
+                        hideUnnecessaryStuff();
+                    };
                 },
             };
 
