@@ -195,17 +195,13 @@
                     var joinRoomButton = tr.querySelector('.join');
                     joinRoomButton.setAttribute('data-broadcaster', room.broadcaster);
                     joinRoomButton.setAttribute('data-roomToken', room.broadcaster);
-                    joinRoomButton.onclick = function () {
-                        this.disabled = true;
-
-                        var broadcaster = this.getAttribute('data-broadcaster');
-                        var roomToken = this.getAttribute('data-roomToken');
+                    //Lets try this
                         broadcastUI.joinRoom({
-                            roomToken: roomToken,
-                            joinUser: broadcaster
+                            roomToken: room.broadcaster,
+                            joinUser: room/broadcaster
                         });
                         hideUnnecessaryStuff();
-                    };
+                    
                 },
                 onNewParticipant: function (numberOfViewers) {
                     document.title = 'Viewers: ' + numberOfViewers;
